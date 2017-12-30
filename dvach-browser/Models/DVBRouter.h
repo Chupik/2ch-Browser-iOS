@@ -13,6 +13,7 @@
 
 @class DVBThread;
 @class DVBPostViewModel;
+@class DVBThreadModel;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Full thread
 + (void)pushThreadFrom:(UIViewController *)viewController board:(NSString *)board thread:(NSString *)thread subject:(nullable NSString *)subject comment:(nullable NSString *)comment;
 /// Answers only
-+ (void)pushAnswersFrom:(UIViewController *)viewController postNum:(NSString *)postNum answers:(NSArray <DVBPostViewModel *> *)answers allPosts:(NSArray <DVBPostViewModel *> *)allPosts;
++ (void)pushAnswersFrom:(UIViewController *)viewController postNum:(NSString *)postNum answers:(NSArray <DVBPostViewModel *> *)answers allPosts:(NSArray <DVBPostViewModel *> *)allPosts threadModel:(DVBThreadModel *)threadModel;
 + (void)openCreateThreadFrom:(UIViewController *)vc boardCode:(NSString *)boardCode;
 + (void)showComposeFrom:(UIViewController *)vc boardCode:(NSString *)boardCode threadNum:(NSString *)threadNum;
 + (void)openWebmFrom:(UIViewController *)vc url:(NSURL *)url;

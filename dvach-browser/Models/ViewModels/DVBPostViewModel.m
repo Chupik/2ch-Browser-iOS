@@ -29,7 +29,7 @@
 
 - (void)convertToNested
 {
-  _repliesCount = 0;
+  //_repliesCount = 0;
 }
 
 @end

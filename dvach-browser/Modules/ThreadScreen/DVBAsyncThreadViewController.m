@@ -62,7 +62,7 @@ static CGFloat const MAX_OFFSET_DIFFERENCE_TO_SCROLL_AFTER_POSTING = 500.0f;
     return self;
 }
 
-- (instancetype)initWithPostNum:(NSString *)postNum answers:(NSArray <DVBPostViewModel *> *)answers allPosts:(NSArray <DVBPostViewModel *> *)allPosts
+- (instancetype)initWithPostNum:(NSString *)postNum answers:(NSArray <DVBPostViewModel *> *)answers allPosts:(NSArray <DVBPostViewModel *> *)allPosts threadModel:(DVBThreadModel *)threadModel
 {
     ASTableNode *tableNode = [[ASTableNode alloc] initWithStyle:UITableViewStylePlain];
     self = [super initWithNode:tableNode];
@@ -70,9 +70,10 @@ static CGFloat const MAX_OFFSET_DIFFERENCE_TO_SCROLL_AFTER_POSTING = 500.0f;
         _tableNode = tableNode;
         _posts = answers;
         _allPosts = allPosts;
+        _threadModel = threadModel;
         self.title = postNum;
         [self setupTableNode];
-        [self initialThreadLoad];
+        [self initialThreadLoadWithAnswers];
     }
     return self;
 }
@@ -172,6 +173,7 @@ static CGFloat const MAX_OFFSET_DIFFERENCE_TO_SCROLL_AFTER_POSTING = 500.0f;
     weakify(self);
     [_threadModel checkPostsInDbForThisThreadWithCompletion:^(NSArray *posts) { // array of DVBPost
         strongify(self);
+        NSLog(@"Есть ThreadModel");
         if (!self) { return; }
         if (!posts) {
             _alreadyLoading = NO;
@@ -185,6 +187,12 @@ static CGFloat const MAX_OFFSET_DIFFERENCE_TO_SCROLL_AFTER_POSTING = 500.0f;
             [self reloadThread];
         });
     }];
+}
+
+// Fix answers nesting
+- (void)initialThreadLoadWithAnswers
+{
+    
 }
 
 - (NSArray <DVBPostViewModel *> *)convertPostsToViewModel:(NSArray <DVBPost *> *)posts forAnswer:(BOOL)forAnswer
@@ -399,11 +407,14 @@ static CGFloat const MAX_OFFSET_DIFFERENCE_TO_SCROLL_AFTER_POSTING = 500.0f;
 }
 - (void)showAnswersFor:(NSInteger)index
 {
-    DVBPost *post = _threadModel.postsArray[index];
+    DVBPostViewModel *viewModel = _posts[index];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"num == %@", viewModel.num];
+    DVBPost *post = [[_threadModel.postsArray filteredArrayUsingPredicate:predicate] firstObject];
     [DVBRouter pushAnswersFrom:self
                        postNum:post.num
                        answers:[self convertPostsToViewModel:post.replies forAnswer:YES]
                       allPosts:_allPosts ? _allPosts : _posts
+                   threadModel: _threadModel
      ];
 }
 
@@ -456,6 +467,7 @@ static CGFloat const MAX_OFFSET_DIFFERENCE_TO_SCROLL_AFTER_POSTING = 500.0f;
                        postNum:post.num
                        answers:[self convertPostsToViewModel:@[post] forAnswer:YES]
                       allPosts:_allPosts ? _allPosts : _posts
+                   threadModel: _threadModel
      ];
     return;
   }
@@ -470,6 +482,7 @@ static CGFloat const MAX_OFFSET_DIFFERENCE_TO_SCROLL_AFTER_POSTING = 500.0f;
                          postNum:postVM.num
                          answers:@[postVM]
                         allPosts:_allPosts ? _allPosts : _posts
+                     threadModel: _threadModel
        ];
     }
     else { // end method if we can't find posts

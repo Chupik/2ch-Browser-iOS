@@ -204,6 +204,7 @@
     } else if (_captchaId && _captchaCode) { // Check manually entered captcha
         captchaParameters = @
         {
+            @"captcha_type" : @"2chaptcha",
             @"2chaptcha_id": _captchaId,
             @"2chaptcha_value": _captchaCode
         };

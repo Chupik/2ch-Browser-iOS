@@ -205,6 +205,7 @@
                     NSUInteger currentPostIndex = 0;
                     
                     for (DVBPost *post in semiResultArray) {
+                        post.replies = [@[] mutableCopy];
                         NSMutableArray *delete = [NSMutableArray array];
                         for (NSString *replyTo in post.repliesTo) {
                             NSInteger index = [self.postNumArray indexOfObject:replyTo];

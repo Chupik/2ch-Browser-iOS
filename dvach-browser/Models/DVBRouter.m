@@ -15,6 +15,7 @@
 #import "DVBAsyncThreadViewController.h"
 #import "DVBCreatePostViewController.h"
 #import "DVBWebmViewController.h"
+//#import "DVBThreadModel.h"
 
 @implementation DVBRouter
 
@@ -36,9 +37,9 @@
                                                    animated:YES];
 }
 
-+ (void)pushAnswersFrom:(UIViewController *)viewController postNum:(NSString *)postNum answers:(NSArray <DVBPostViewModel *> *)answers allPosts:(NSArray <DVBPostViewModel *> *)allPosts
++ (void)pushAnswersFrom:(UIViewController *)viewController postNum:(NSString *)postNum answers:(NSArray <DVBPostViewModel *> *)answers allPosts:(NSArray <DVBPostViewModel *> *)allPosts threadModel:(DVBThreadModel *)threadModel
 {
-    DVBAsyncThreadViewController *vc = [[DVBAsyncThreadViewController alloc] initWithPostNum:postNum answers:answers allPosts:allPosts];
+    DVBAsyncThreadViewController *vc = [[DVBAsyncThreadViewController alloc] initWithPostNum:postNum answers:answers allPosts:allPosts threadModel: threadModel];
     [viewController.navigationController pushViewController:vc
                                                    animated:YES];
 }

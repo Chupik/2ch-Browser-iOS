@@ -26,7 +26,7 @@
 {
     self = [super initWithDictionary:dictionaryValue error:error];
     if (!self) { return nil; }
-    _replies = [@[] mutableCopy];
+    //_replies = [@[] mutableCopy];
     return self;
 }
 
