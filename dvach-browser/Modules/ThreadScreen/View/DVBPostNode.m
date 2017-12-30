@@ -84,7 +84,6 @@ NS_ASSUME_NONNULL_BEGIN
         [self addSubnode:_answerToPostButton];
 
         if (post.repliesCount > 0) {
-            NSLog(@"Ща нарисую %li ответов", (long)post.repliesCount);
             _answersButton = [DVBPostViewGenerator showAnswersButtonWithCount:post.repliesCount];
             [_answersButton addTarget:self
                                action:@selector(showAnswers:)

@@ -11,5 +11,6 @@
 @interface DVBCaptchaManager : NSObject
 
 - (void)getCaptchaImageUrl:(NSString *)threadNum andCompletion:(void (^)(NSString *, NSString *))completion;
+- (void)getCaptchaId:(void (^)(NSString *))completion;
 
 @end

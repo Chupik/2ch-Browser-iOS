@@ -43,4 +43,17 @@
     }];
 }
 
+- (void)getCaptchaId:(void (^)(NSString *))completion
+{
+    [_networkManager getCaptchaId:^(NSString * _Nullable captchaId)
+     {
+         if (captchaId) {
+             completion(captchaId);
+         } else {
+             completion(nil);
+         }
+         
+     }];
+}
+
 @end

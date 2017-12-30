@@ -388,6 +388,28 @@ static NSString * const NO_CAPTCHA_ANSWER_CODE = @"disabled";
    }];
 }
 
+- (void)getCaptchaId:(void (^)(NSString * _Nullable))completion {
+    NSString *address = [[NSString alloc] initWithFormat:@"%@/%@", [DVBUrls base], @"api/captcha/recaptcha/id"];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    [manager GET:address
+      parameters:nil
+         success:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         if (responseObject[@"id"] != nil) {
+             NSString *captchaId = responseObject[@"id"];
+             completion(captchaId);
+         } else {
+             completion(nil);
+         }
+     }
+         failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         completion(nil);
+     }];
+}
+
 - (NSString * _Nullable)userAgent {
   AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
   NSString *userAgent = [manager.requestSerializer  valueForHTTPHeaderField:NETWORK_HEADER_USERAGENT_KEY];

@@ -23,6 +23,7 @@
 #import "DVBContainerForPostElements.h"
 #import "DVBAddPhotoIconImageViewContainer.h"
 #import "DVBPictureToSendPreviewImageView.h"
+#import "DVBRecaptchaViewController.h"
 
 @interface DVBCreatePostViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIScrollViewDelegate, DVBDvachCaptchaViewControllerDelegate>
 
@@ -112,11 +113,18 @@
 
 - (void)showDvachCaptchaController
 {
+    // Deprecated staff, thanks, Abu!
+    /*
     DVBDvachCaptchaViewController *captchaVC = [[DVBDvachCaptchaViewController alloc] initWithNibName:nil bundle:nil];
     captchaVC.dvachCaptchaViewControllerDelegate = self;
     if (![_threadNum isEqualToString:@"0"]) {
         captchaVC.threadNum = _threadNum;
     }
+     */
+    DVBRecaptchaViewController *captchaVC = [[DVBRecaptchaViewController alloc] initWithNibName:nil bundle:nil];
+    
+    captchaVC.dvachCaptchaViewControllerDelegate = self;
+    
     [self.navigationController pushViewController:captchaVC
                                          animated:YES];
 }
@@ -204,9 +212,9 @@
     } else if (_captchaId && _captchaCode) { // Check manually entered captcha
         captchaParameters = @
         {
-            @"captcha_type" : @"2chaptcha",
+            @"captcha_type" : @"recaptcha",
             @"2chaptcha_id": _captchaId,
-            @"2chaptcha_value": _captchaCode
+            @"g-recaptcha-response": _captchaCode
         };
     } else {
         // No right app response from server, and entered manual captcha yet

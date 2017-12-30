@@ -73,7 +73,6 @@ static CGFloat const MAX_OFFSET_DIFFERENCE_TO_SCROLL_AFTER_POSTING = 500.0f;
         _threadModel = threadModel;
         self.title = postNum;
         [self setupTableNode];
-        [self initialThreadLoadWithAnswers];
     }
     return self;
 }
@@ -187,12 +186,6 @@ static CGFloat const MAX_OFFSET_DIFFERENCE_TO_SCROLL_AFTER_POSTING = 500.0f;
             [self reloadThread];
         });
     }];
-}
-
-// Fix answers nesting
-- (void)initialThreadLoadWithAnswers
-{
-    
 }
 
 - (NSArray <DVBPostViewModel *> *)convertPostsToViewModel:(NSArray <DVBPost *> *)posts forAnswer:(BOOL)forAnswer

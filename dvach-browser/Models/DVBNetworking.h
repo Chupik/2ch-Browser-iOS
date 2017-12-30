@@ -41,6 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)getCaptchaImageUrl:(NSString * _Nullable)threadNum andCompletion:(void (^)(NSString * _Nullable, NSString * _Nullable))completion;
 
+- (void)getCaptchaId:(void (^)(NSString * _Nullable))completion;
+
 - (NSString * _Nullable)userAgent;
 
 /// AP captcha
